@@ -1,12 +1,14 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import service.BMIService;
+
+import java.time.Duration;
 
 /**
  * API to calculate the BMI
@@ -19,8 +21,12 @@ public class BMIController {
 
     @GetMapping
     public Flux<Double> getBMI(){
-//        return  Flux.fromIterable(bmiService.calculateBMI());
         return bmiService.calculateBMI();
+    }
+
+    @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Long> getEvents(){
+        return Flux.interval(Duration.ofSeconds(1));
     }
 
 }

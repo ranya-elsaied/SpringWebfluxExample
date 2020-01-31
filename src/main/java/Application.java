@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import org.w3c.dom.ranges.Range;
 import reactor.core.publisher.Mono;
 import repository.PersonRepository;
 
 import javax.swing.text.Style;
+import java.util.stream.IntStream;
 
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -30,10 +32,11 @@ public class Application implements CommandLineRunner  {
 
     @Override
     public void run(String... args) throws Exception {
-        Person person = new Person(1, 50.0, 1.8);
-        personRepository.save(person).block();
-        person = new Person(2, 70.0, 1.8);
-        personRepository.save(person).block();
+        //loop to save more records
+        IntStream.range(1, 10000).forEach(n-> {
+                    Person person = new Person(n, 50.0, 1.8);
+                    personRepository.save(person).block();
+                });
         Mono<Person> mono = personRepository.findAllById(1);
         System.err.println("----"+mono.block());
         System.err.println("-----saved successful");
