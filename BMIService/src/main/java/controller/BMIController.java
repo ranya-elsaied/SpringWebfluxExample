@@ -1,9 +1,9 @@
 package controller;
 
 import model.Person;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,9 +21,6 @@ public class BMIController {
     @Autowired
     private BMIService bmiService;
 
-    @Autowired
-    private PersonRepository repository;
-
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Double> getBMI(){
         return bmiService.calculateBMI();
@@ -35,8 +32,8 @@ public class BMIController {
     }
 
     @PostMapping("/person")
-    Mono<Void> create(@RequestBody Person person) {
-        return this.repository.save(person).then();
+    ResponseEntity<Mono<Void>> create(@RequestBody Person person) {
+        return ResponseEntity.ok(bmiService.savePerson(person));
     }
 
 }
