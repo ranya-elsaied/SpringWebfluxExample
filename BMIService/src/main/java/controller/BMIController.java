@@ -21,7 +21,7 @@ public class BMIController {
     @Autowired
     private BMIService bmiService;
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping
     public Flux<Double> getBMI(){
         return bmiService.calculateBMI();
     }
