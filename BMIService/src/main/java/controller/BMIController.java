@@ -23,7 +23,7 @@ public class BMIController {
 
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Double> getBMI(){
-        return bmiService.calculateBMI();
+        return bmiService.calculateBMI().delayElements(Duration.ofSeconds(1));
     }
 
     @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

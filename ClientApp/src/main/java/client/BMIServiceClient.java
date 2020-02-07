@@ -23,6 +23,7 @@ public class BMIServiceClient {
 
     public String getResult() {
         Mono<List<Double>>res = result.collect(Collectors.toList());
+        //block till all values arrives
         return ">> result = " + res.block();
     }
 }
